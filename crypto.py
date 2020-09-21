@@ -2,12 +2,25 @@
 # Arguments: string, integer
 # Returns: string
 def encrypt_caesar(plaintext, offset):
-    pass
+	encription = ""
+	for element in plaintext
+		newUnicde = ((ord(element) - 65 + offset) % 26) + 65
+		encription.append(chr(newUnicode))
+	return encription
 
 # Arguments: string, integer
 # Returns: string
 def decrypt_caesar(ciphertext, offset):
     pass
+	originalPlainText = ""
+	for element in ciphertext
+		if (ord(element) - 65 - offset < 0)
+			newUnicde = (ord(element) - 65 + 26 - offset) + 65
+			encription.append(chr(newUnicode))
+		elif
+			newUnicde = (ord(element) - 65 - offset) + 65
+			encription.append(chr(newUnicode))
+	return originalPlainText 
 
 # Vigenere Cipher
 # Arguments: string, string
