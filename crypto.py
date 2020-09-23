@@ -3,35 +3,52 @@
 # Returns: string
 def encrypt_caesar(plaintext, offset):
 	encription = ""
-	for element in plaintext
-		newUnicde = ((ord(element) - 65 + offset) % 26) + 65
-		encription.append(chr(newUnicode))
+	for element in plaintext:
+		newUnicode = ((ord(element) - 65 + offset) % 26) + 65
+		encription = encription + chr(newUnicode)
 	return encription
 
 # Arguments: string, integer
 # Returns: string
 def decrypt_caesar(ciphertext, offset):
-    pass
 	originalPlainText = ""
-	for element in ciphertext
-		if (ord(element) - 65 - offset < 0)
-			newUnicde = (ord(element) - 65 + 26 - offset) + 65
+	for element in ciphertext:
+		if ord(element) - 65 - offset < 0:
+			newUnicode = (ord(element) - 65 + 26 - offset) + 65
 			encription.append(chr(newUnicode))
-		elif
+		else:
 			newUnicde = (ord(element) - 65 - offset) + 65
 			encription.append(chr(newUnicode))
 	return originalPlainText 
-
 # Vigenere Cipher
 # Arguments: string, string
 # Returns: string
 def encrypt_vigenere(plaintext, keyword):
-    pass
-
+	encription = ""
+	truIndex = 0
+	for element in plaintext:
+		ogUnicode = ord(element) - 65
+		keyUnicode = ord(keyword[index]) - 65
+		encription.append(chr((ogUnicode + keyUnicode) % 26 + 65))
+		truIndex = truIndex + 1
+	return encription
 # Arguments: string, string
 # Returns: string
 def decrypt_vigenere(ciphertext, keyword):
-    pass
+	encription = ""
+	truIndex = 0
+	for element in ciphertext:
+		ogUnicode = ord(element) - 65
+		keyUnicode = ord(keyword[truIndex]) - 65
+		if ord(element) - 65 - keyUnicode < 0:
+			newUnicode = (ord(element) - 65 + 26 - keyUnicode) + 65
+			encription.append(chr(newUnicode))
+			index = index + 1
+		else:
+			newUnicode = (ord(element) - 65 - keyUnicode) + 65
+			encription.append(chr(newUnicode))
+			index = index + 1
+	return encription
 
 # Merkle-Hellman Knapsack Cryptosystem
 # Arguments: integer
@@ -56,7 +73,9 @@ def decrypt_mhkc(ciphertext, private_key):
 
 def main():
     # Testing code here
-    pass
+	Legend = encrypt_caesar("AAA", 4)
+	print (Legend)
+	print (decrypt_caesar(Legend, 4)
+	BloodyLegend = encrypt_vigenere
 
-if __name__ == ‘__main__’:
-    main()
+main()
