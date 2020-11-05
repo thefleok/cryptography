@@ -9,7 +9,10 @@ def encrypt_caesar(plaintext, offset):
     encription = ""
     # this loop iterates across plaintext and displaces letters by offset
     for element in plaintext:
-        new_unicode = ((ord(element) - 65 + offset) % 26) + 65
+        if not element.isalpha():
+            new_unicode = ord(element)
+        else:
+            new_unicode = ((ord(element) - 65 + offset) % 26) + 65
         encription = encription + chr(new_unicode)
     return encription
 
@@ -20,12 +23,15 @@ def decrypt_caesar(ciphertext, offset):
     original_plaintext = ""
     # this loop traverses cyphertext and displaces based on offset letter value
     for element in ciphertext:
-        if ord(element) - 65 - offset < 0: # goes to back of alphabet
-            new_unicode = ord(element) + 26 - offset
-            original_plaintext = original_plaintext + (chr(new_unicode))
-        else: # goes backwards through alphabet, but never a to z
-            new_unicode = ord(element) - offset
-            original_plaintext = original_plaintext + (chr(new_unicode))
+        if not element.isalpha():
+            original_plaintext = original_plaintext + element
+        else:
+            if ord(element) - 65 - offset < 0: # goes to back of alphabet
+                new_unicode = ord(element) + 26 - offset
+                original_plaintext = original_plaintext + (chr(new_unicode))
+            else: # goes backwards through alphabet, but never a to z
+                new_unicode = ord(element) - offset
+                original_plaintext = original_plaintext + (chr(new_unicode))
     return original_plaintext 
 
 # Vigenere Cipher
@@ -144,7 +150,7 @@ def encrypt_mhkc(plaintext, public_key):
             C = C + x * public_key[count]
             count = count + 1 # increases index each time
         encryption = encryption + (C,) # add C for each letter
-    return encryption
+    return list(encryption)
 
 # Arguments: int R, int Q
 # Returns: value for S
@@ -161,7 +167,7 @@ def find_S (Q, R):
 
 def decrypt_mhkc(ciphertext, private_key):
     C = ()
-    C = ciphertext
+    C = tuple(ciphertext)
     C_prime = ()
     # for loop finds S and builds c prime component
     for x in C:
@@ -180,7 +186,7 @@ def decrypt_mhkc(ciphertext, private_key):
             count = count - 1
         bits_tuple = tuple(bits)
         bytearray = bytearray + (bits_to_byte(bits_tuple),)
-    return bytearray
+    return bytearray_to_string(bytearray)
 
 # Arguments: bytearray of character values
 # Returns: A string determined by those values
@@ -194,19 +200,27 @@ def bytearray_to_string(bytearray):
 
 # Main function, executes code
 
-def main():
+if __name__ == "__main__":
     # main method with test code
-    caesarEncryption = encrypt_caesar("ZZZ", 5)
-    print (caesarEncryption)
-    caesarDecryption = decrypt_caesar(caesarEncryption, 5)
-    print (caesarDecryption)
-    vigenereEncryption = encrypt_vigenere("ZZZZ", "ABCD")
-    print (vigenereEncryption)
-    vigenereDecryption = decrypt_vigenere(vigenereEncryption, "ABCC")
-    print (vigenereDecryption)
+    str = "A,ONEINPUT,O"
+    listo = str.split (",")
+    li = []
+    for element in listo:
+        if element.isdigit():
+            li.append(int(element))
+        else:
+            li.append(element)
+    if li[1].isdigit():
+        caesarEncryption = encrypt_caesar(li[0], li[1])
+        caesarDecryption = decrypt_caesar(caesarEncryption, li[1])
+        if (caesarDecryption == li[0]) & (caesarEncryption == li[2]):
+            print("caesar true")
+    oneone = encrypt_vigenere(li[0], li[1])
+    zero = decrypt_vigenere(oneone, li[1])
+    if (zero == li[0]) & (oneone == li[2]):
+        print ("vigenere true")
     privatekey = generate_private_key()
     publickey = create_public_key(privatekey)
-    encryption = encrypt_mhkc("hi there", publickey)
+    encryption = encrypt_mhkc("Matthew Redmond", publickey)
     outcome = decrypt_mhkc(encryption, privatekey)
-    print (bytearray_to_string (outcome))
-main()
+    print (outcome)
