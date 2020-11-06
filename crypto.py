@@ -121,7 +121,7 @@ def byte_to_bits(value):
             bits[count] = 1
         count = count - 1
     bits_tuple = tuple(bits)
-    return bits_tuple
+    return bits_tuple[::-1]
 
 # Arguments: tuple
 # Returns: Byte from tuple of bits
@@ -132,7 +132,7 @@ def bits_to_byte(bits):
     # while loop grabs each bit and applies appropriate exponent
     while count < 8:
         if bits [count] == 1: # non zero value
-            byte = byte + 2**count
+            byte = byte + 2**(7 - count)
         count = count + 1
     return byte
 
@@ -219,8 +219,9 @@ if __name__ == "__main__":
     zero = decrypt_vigenere(oneone, li[1])
     if (zero == li[0]) & (oneone == li[2]):
         print ("vigenere true")
-    privatekey = generate_private_key()
-    publickey = create_public_key(privatekey)
-    encryption = encrypt_mhkc("Matthew Redmond", publickey)
-    outcome = decrypt_mhkc(encryption, privatekey)
+    privatekey = ((1, 2, 5, 13, 36, 93, 162, 397), 1043, 2)
+    publickey = (2, 4, 10, 26, 72, 186, 324, 794)
+    encryption = encrypt_mhkc("A", publickey)
+    print(encryption)
+    outcome = decrypt_mhkc([798], privatekey)
     print (outcome)
